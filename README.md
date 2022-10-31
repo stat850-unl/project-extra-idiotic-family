@@ -1,6 +1,11 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 Stat 850 Project Description
 ================
-Malith Premarathna,
+Malith Premarathna, Pranta Das
 
 ## Instructions
 
@@ -17,13 +22,12 @@ you may alter this README so that it describes your final project
 instead of the project proposal.
 
 ## Data Set
-
-Link to your dataset: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
+We are thinking about dealing with crime dataset. Here is the link of the data we are planning to used: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
 
 ## Data set Description
 This dataset reflects incidents of crime in the City of Los Angeles dating back to 2020. There are 521k rows (each row is a crime incident) and 28 columns (Variables).
 
-1.*DR_NO* - Division of records number: Official file number made up of a 2 digit year, area ID, and 5 digits.
+1. *DR_NO* - Division of records number: Official file number made up of a 2 digit year, area ID, and 5 digits.
 
 2. *Date Rptd* - Reported date of the crime
 
@@ -53,20 +57,58 @@ This dataset reflects incidents of crime in the City of Los Angeles dating back 
 
 15. *Premis Cd* - The type of structure, vehicle, or location where the crime took place.
 
+16. *Premis Desc* Defines the Premis Cd provided.
+
+17. *Weapon Used Cd* The type of weapon used in crime given as a code.
+
+18. *Weapon Desc* Defines the code of the weapon used in crime.
+
+19. *Status* Provides the status of the case in code.
+
+20. *Status Desc* Description of the status code provided.
+
+21. *Crm Cd 1* It indicates the crime committed where Crime Code 1 represents the most serious crime. 
+
+22. *Crm Cd 2* It also indicates the crime code but it is less serious than Crm Cd 1.
+
+23. *Crm Cd 3* This crime code is for less serious crime than represented by Crm Cd 1 and Crm Cd 2.
+
+24. *Crm Cd 4* This crime code is for the least serious crime.
+
+25. *LOCATION* Street address of crime incident rounded to nearest hundred blocks.
+
+26. *Cross Street* Cross street of the rounded address.
+
+27. *LAT* Latitude.
+
+28. *LON* Longitude.
 
 
 
 ## Potential Topics to Explore Using the Data Set
 
-we might explore following facts using the data.
+We will explore following facts using the data.
 
-1. which area has the highest number of crimes among the 21 Police Stations.
-2. Create a table for area and the sub area to identify the most awful sub area..
+1. Which area has the highest number of crimes among the 21 Police Stations.
+
+2. Create a table for area and the sub area to identify the most awful sub area.
+
 3. Use *Crm cd* and *Crm cd* data to explore Which is the most frequent crime type.
+
 4. Present a Side by side box plot for the ages with most frequent 5 types of  crime in order to identify whether there is a targeted age for particular crime. 
-5. Bar plot of crime type (crm cd) filled with victim sex, descent in order to identify whether there is a targeted sex, descent for particular crime. 
+
+5. Bar plot of crime type (crm cd) filled with victim sex, descent in order to identify whether there is a targeted sex, descent for particular crime.
+
+6. Creating a word cloud about premises for frequently occurred crimes.
+
+7. Explore whether the commiter has used different weapons for commiting the same crime for male's and female's.
+
+8. Identify which types of crimes are getting resolved and which type of crimes are not getting resolved based on the status(Current) of the case.
+
+9. We will try to plot a map to explore which area has the highest number of crimes using the Latitude and Longitude variables in the data set. This is a same exploration we suggested in 1 but this is also in mind. We will try to present either one of them.
 
 
 ## Group Members
 
 1. Malith Premarathna
+2. Pranta Das
