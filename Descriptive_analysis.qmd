@@ -8,9 +8,6 @@ editor: visual
 library(tidyverse)
 ```
 
-
-
-
 ## Data Set
 
 We are thinking about dealing with crime dataset. Here is the link of the data we are planning to used: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
@@ -59,7 +56,7 @@ This dataset reflects incidents of crime in the City of Los Angeles dating back 
 
 20. *Status Desc* Description of the status code provided.
 
-21. *Crm Cd 1* It indicates the crime committed where Crime Code 1 represents the most serious crime. 
+21. *Crm Cd 1* It indicates the crime committed where Crime Code 1 represents the most serious crime.
 
 22. *Crm Cd 2* It also indicates the crime code but it is less serious than Crm Cd 1.
 
@@ -75,12 +72,10 @@ This dataset reflects incidents of crime in the City of Los Angeles dating back 
 
 28. *LON* Longitude.
 
-
 ## Explonatory Analysis
 
-
-
 ##### Here which sex group are the victim of which type of crimes.
+
 ```{r}
 data<-read.csv("Subset_data.csv")
 ```
@@ -129,10 +124,29 @@ data %>%
           labs(x="List of Crimes")+
           theme_bw()
 ```
+```{r}
+#add new column that cuts "Victim's age" into categories
+data$cat_age <- cut(data$Vict.Age,
+              breaks=c(10,30,50,70,100),
+              labels=c('child', 'Young', 'Adult', 'Senoir'))
+
+data %>%
+  group_by(crime,cat_age) %>% 
+  count() %>% 
+  ungroup() %>% 
+  ggplot()+
+  aes(x=reorder(crime,n),y=n,fill=cat_age)+
+  geom_col(position = "dodge")+
+  coord_flip()+
+  scale_fill_manual(values = c("blue","red", "black", "cyan"))+
+  labs(x="List of Crimes")+
+  theme_bw()
 
 
+```
 
 ##### Here the premises of some crimes are explored given that the premise appeared more than 3% of the times.
+
 ```{r}
 knitr::kable(data %>% 
   filter(crime=="BURGLARY") %>% 
@@ -143,7 +157,6 @@ knitr::kable(data %>%
     rename("Premis of Burglary"="Premis.Desc"))
 ```
 
-
 ```{r}
 knitr::kable(data %>% 
   filter(crime=="ASSAULT") %>% 
@@ -153,7 +166,6 @@ knitr::kable(data %>%
   select(Premis.Desc) %>% 
     rename("Premis of Assault"="Premis.Desc"))
 ```
-
 
 ```{r}
 knitr::kable(data %>% 
@@ -174,4 +186,3 @@ knitr::kable(data %>%
   select(Premis.Desc) %>% 
     rename("Premis of CWSTK"="Premis.Desc"))
 ```
-

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Crime Data Explonatory Analysis Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Descriptive_analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Descriptive_analysis_files/libs/quarto-html/quarto.js"></script>
+<script src="Descriptive_analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="Descriptive_analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Descriptive_analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Descriptive_analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Descriptive_analysis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Descriptive_analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Descriptive_analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Descriptive_analysis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Crime Data Explonatory Analysis Project</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="data-set" class="level2">
+<h2 class="anchored" data-anchor-id="data-set">Data Set</h2>
+<p>We are thinking about dealing with crime dataset. Here is the link of the data we are planning to used: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8</p>
+</section>
+<section id="data-set-description" class="level2">
+<h2 class="anchored" data-anchor-id="data-set-description">Data set Description</h2>
+<p>This dataset reflects incidents of crime in the City of Los Angeles dating back to 2020. There are 521k rows (each row is a crime incident) and 28 columns (Variables).</p>
+<ol type="1">
+<li><p><em>DR_NO</em> - Division of records number: Official file number made up of a 2 digit year, area ID, and 5 digits.</p></li>
+<li><p><em>Date Rptd</em> - Reported date of the crime</p></li>
+<li><p><em>Date OCC</em> - Occured date of the crime</p></li>
+<li><p><em>TIME OCC</em> - occured time of the crime in 24 hour military time.</p></li>
+<li><p><em>AREA</em> - The Los Angeles Police Department has 21 community police Stations referred to as Geographic Areas within the department. These Geographic Areas are sequentially numbered from 1-21.</p></li>
+<li><p><em>AREA NAME</em> - Name designation of the area.</p></li>
+<li><p><em>Rpt Dist No</em> - A four digit code that represents a sub area with a geographic Area.</p></li>
+<li><p><em>Part 1-2</em> - no discription</p></li>
+<li><p><em>Crm cd</em> - indicates the crime committed (same as the <em>Crm cd 1</em>)</p></li>
+<li><p><em>Crm cd Desc</em> - Defines the crime Code Provided.</p></li>
+<li><p><em>Mocodes</em> - Activities associated with the suspect in commission of the crime.</p></li>
+<li><p><em>Vict Age</em> - Age of the Victim.</p></li>
+<li><p><em>Vict Sex</em> - Sex of the Victim (<em>F</em> - Female/ <em>M</em> - Male, <em>X</em>- Unknown)</p></li>
+<li><p><em>Vict Descent</em> - Descent Code of the Victim (<em>A</em>-other Asian, <em>B</em>-Black, <em>C</em>-Chinese, etc.)</p></li>
+<li><p><em>Premis Cd</em> - The type of structure, vehicle, or location where the crime took place.</p></li>
+<li><p><em>Premis Desc</em> Defines the Premis Cd provided.</p></li>
+<li><p><em>Weapon Used Cd</em> The type of weapon used in crime given as a code.</p></li>
+<li><p><em>Weapon Desc</em> Defines the code of the weapon used in crime.</p></li>
+<li><p><em>Status</em> Provides the status of the case in code.</p></li>
+<li><p><em>Status Desc</em> Description of the status code provided.</p></li>
+<li><p><em>Crm Cd 1</em> It indicates the crime committed where Crime Code 1 represents the most serious crime.</p></li>
+<li><p><em>Crm Cd 2</em> It also indicates the crime code but it is less serious than Crm Cd 1.</p></li>
+<li><p><em>Crm Cd 3</em> This crime code is for less serious crime than represented by Crm Cd 1 and Crm Cd 2.</p></li>
+<li><p><em>Crm Cd 4</em> This crime code is for the least serious crime.</p></li>
+<li><p><em>LOCATION</em> Street address of crime incident rounded to nearest hundred blocks.</p></li>
+<li><p><em>Cross Street</em> Cross street of the rounded address.</p></li>
+<li><p><em>LAT</em> Latitude.</p></li>
+<li><p><em>LON</em> Longitude.</p></li>
+</ol>
+</section>
+<section id="explonatory-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="explonatory-analysis">Explonatory Analysis</h2>
+<section id="here-which-sex-group-are-the-victim-of-which-type-of-crimes." class="level5">
+<h5 class="anchored" data-anchor-id="here-which-sex-group-are-the-victim-of-which-type-of-crimes.">Here which sex group are the victim of which type of crimes.</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"Subset_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(data<span class="sc">$</span>Crm.Cd.Desc)){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"ASSAULT"</span>)<span class="sc">==</span><span class="cn">TRUE</span> <span class="sc">&amp;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"SEXUAL"</span>)<span class="sc">!=</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"ASSAULT"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"VIOLATION"</span>)<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"VIOLATION"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}  <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"BURGLARY"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"STOLEN"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"THEFT"</span>)<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"BURGLARY"</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"SEX"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span><span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"RAPE"</span>)<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"SEXUAL MISCONDUCT"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"VANDALISM"</span>)<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"VANDALISM"</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"CRIMINAL"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"WEAPON"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"SHOTS"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"THREAT"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>          <span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"KIDNAP"</span>)<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"CWSTK"</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"ROBBERY"</span>)<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"ROBBERY"</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">str_detect</span>(data<span class="sc">$</span>Crm.Cd.Desc[i],<span class="st">"TRESPASSING"</span>)<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"TRESPASSING"</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>}<span class="cf">else</span> data<span class="sc">$</span>crime[i]<span class="ot">&lt;-</span><span class="st">"OTHER CRIMES"</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Sex<span class="ot">&lt;-</span><span class="fu">ifelse</span>(data<span class="sc">$</span>Vict.Sex<span class="sc">==</span><span class="st">"M"</span>,<span class="st">"Male"</span>,<span class="fu">ifelse</span>(data<span class="sc">$</span>Vict.Sex<span class="sc">==</span><span class="st">"F"</span>,<span class="st">"Female"</span>,<span class="st">"Unknown"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(crime,Sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(crime,n),<span class="at">y=</span>n,<span class="at">fill=</span>Sex)<span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)<span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"black"</span>, <span class="st">"cyan"</span>))<span class="sc">+</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>          <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"List of Crimes"</span>)<span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>          <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Descriptive_analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#add new column that cuts "Victim's age" into categories</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>cat_age <span class="ot">&lt;-</span> <span class="fu">cut</span>(data<span class="sc">$</span>Vict.Age,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">30</span>,<span class="dv">50</span>,<span class="dv">70</span>,<span class="dv">100</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">labels=</span><span class="fu">c</span>(<span class="st">'child'</span>, <span class="st">'Young'</span>, <span class="st">'Adult'</span>, <span class="st">'Senoir'</span>))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(crime,cat_age) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(crime,n),<span class="at">y=</span>n,<span class="at">fill=</span>cat_age)<span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)<span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>,<span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"cyan"</span>))<span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"List of Crimes"</span>)<span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Descriptive_analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="here-the-premises-of-some-crimes-are-explored-given-that-the-premise-appeared-more-than-3-of-the-times." class="level5">
+<h5 class="anchored" data-anchor-id="here-the-premises-of-some-crimes-are-explored-given-that-the-premise-appeared-more-than-3-of-the-times.">Here the premises of some crimes are explored given that the premise appeared more than 3% of the times.</h5>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"BURGLARY"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Premis.Desc) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop=</span><span class="fu">prop.table</span>(n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(prop<span class="sc">&gt;</span><span class="fl">0.030</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Premis.Desc) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="st">"Premis of Burglary"</span><span class="ot">=</span><span class="st">"Premis.Desc"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Premis of Burglary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DRIVEWAY</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GARAGE/CARPORT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MULTI-UNIT DWELLING (APARTMENT, DUPLEX, ETC)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OTHER BUSINESS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PARKING LOT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SINGLE FAMILY DWELLING</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STREET</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"ASSAULT"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Premis.Desc) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop=</span><span class="fu">prop.table</span>(n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(prop<span class="sc">&gt;=</span><span class="fl">0.03</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Premis.Desc) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="st">"Premis of Assault"</span><span class="ot">=</span><span class="st">"Premis.Desc"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Premis of Assault</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MULTI-UNIT DWELLING (APARTMENT, DUPLEX, ETC)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PARKING LOT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SIDEWALK</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SINGLE FAMILY DWELLING</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">STREET</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"SEXUAL MISCONDUCT"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Premis.Desc) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop=</span><span class="fu">prop.table</span>(n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(prop<span class="sc">&gt;=</span><span class="fl">0.03</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Premis.Desc) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="st">"Premis of Sexual Misconduct"</span><span class="ot">=</span><span class="st">"Premis.Desc"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Premis of Sexual Misconduct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MULTI-UNIT DWELLING (APARTMENT, DUPLEX, ETC)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OTHER BUSINESS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">POLICE FACILITY</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SIDEWALK</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SINGLE FAMILY DWELLING</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STREET</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"CWSTK"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Premis.Desc) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop=</span><span class="fu">prop.table</span>(n)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(prop<span class="sc">&gt;=</span><span class="fl">0.03</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Premis.Desc) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="st">"Premis of CWSTK"</span><span class="ot">=</span><span class="st">"Premis.Desc"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Premis of CWSTK</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ALLEY</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MULTI-UNIT DWELLING (APARTMENT, DUPLEX, ETC)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PARKING LOT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SIDEWALK</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SINGLE FAMILY DWELLING</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STREET</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
