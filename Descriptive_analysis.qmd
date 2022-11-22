@@ -1,5 +1,5 @@
 ---
-title: "Crime Data Explonatory Analysis Project"
+title: "Explonatory Analysis of a Crime Data"
 format: html
 editor: visual
 ---
@@ -10,7 +10,7 @@ library(tidyverse)
 
 ## Data Set
 
-We are thinking about dealing with crime dataset. Here is the link of the data we are planning to used: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
+Here is the link of the data we used for our analysis: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
 
 ## Data set Description
 
@@ -72,13 +72,17 @@ This dataset reflects incidents of crime in the City of Los Angeles dating back 
 
 28. *LON* Longitude.
 
-## Explonatory Analysis
-
-##### Here which sex group are the victim of which type of crimes.
+### Loading data
 
 ```{r}
 data<-read.csv("Subset_data.csv")
 ```
+
+### Method
+
+For the convenience of the analysis the variable (`Crm.Cd.Desc`) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as `ASSUALT`, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as `BURGLARY`, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as `CWSTK`, if the crime contained the word Sex or Rape then the crime was coded as `SEXUAL MISCONDUCT`, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as `OTHER CRIMES`. The missing values of variable `Vict.Sex` was coded as unknown. For some of the crimes that was coded the frequently occurred (More than 3%) premises in the data were presented.
+
+#### Codes for recoding
 
 ```{r}
 for(i in 1:length(data$Crm.Cd.Desc)){
@@ -111,6 +115,10 @@ if(str_detect(data$Crm.Cd.Desc[i],"ASSAULT")==TRUE &
 data$Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","Unknown"))
 ```
 
+### Analysis
+
+#### Here which sex group are the victim of which type of crimes are plotted
+
 ```{r}
 data %>%
   group_by(crime,Sex) %>% 
@@ -121,31 +129,11 @@ data %>%
         geom_col(position = "dodge")+
         coord_flip()+
           scale_fill_manual(values = c("blue", "black", "cyan"))+
-          labs(x="List of Crimes")+
+          labs(x="List of Crimes",title="Visual representation of which Sex group is victim of which crime")+
           theme_bw()
 ```
-```{r}
-#add new column that cuts "Victim's age" into categories
-data$cat_age <- cut(data$Vict.Age,
-              breaks=c(10,30,50,70,100),
-              labels=c('child', 'Young', 'Adult', 'Senoir'))
 
-data %>%
-  group_by(crime,cat_age) %>% 
-  count() %>% 
-  ungroup() %>% 
-  ggplot()+
-  aes(x=reorder(crime,n),y=n,fill=cat_age)+
-  geom_col(position = "dodge")+
-  coord_flip()+
-  scale_fill_manual(values = c("blue","red", "black", "cyan"))+
-  labs(x="List of Crimes")+
-  theme_bw()
-
-
-```
-
-##### Here the premises of some crimes are explored given that the premise appeared more than 3% of the times.
+#### Here the premises of some crimes are explored given that the premise appeared more than 3% of the times.
 
 ```{r}
 knitr::kable(data %>% 
