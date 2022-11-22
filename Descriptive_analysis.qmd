@@ -174,3 +174,16 @@ knitr::kable(data %>%
   select(Premis.Desc) %>% 
     rename("Premis of CWSTK"="Premis.Desc"))
 ```
+
+
+### Boxplot of Age distribution for each crime in the dataset
+
+```{r}
+ggplot(data=data)+
+  aes(x=crime,y=Vict.Age)+
+  geom_boxplot()+
+  labs(x="List of crimes",
+        y="Age",title ="Age variation according to the list of crimes")+
+  coord_flip()
+```
+
