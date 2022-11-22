@@ -81,6 +81,37 @@ data<-read.csv("Subset_data.csv")
 ```
 
 ```{r}
+#count total missing values in each column of data frame
+sapply(data, function(x) sum(is.na(x)))
+```
+```{r}
+ggplot(data, aes(x = AREA.NAME, fill=AREA.NAME)) + 
+  geom_histogram(aes(y = ..count..), stat = "count", 
+                                    binwidth = 1,
+                                    bins = 3,
+                                    origin = 1,
+                                    right = TRUE) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)
+```
+
+
+```{r}
+Area_max <- data %>% 
+            group_by(AREA.NAME) %>%
+            count(name = "count") %>%
+            arrange(desc(count))%>% print(n=10)
+```
+```{r}
+#Find the 10 mostly occurred crime type
+crime_high <- data %>% 
+              group_by(Crm.Cd.Desc) %>%
+              count(name = "count") %>%
+              arrange(desc(count))%>% print(n=10)
+```
+
+
+
+```{r}
 for(i in 1:length(data$Crm.Cd.Desc)){
 if(str_detect(data$Crm.Cd.Desc[i],"ASSAULT")==TRUE & 
    str_detect(data$Crm.Cd.Desc[i],"SEXUAL")!=TRUE){
