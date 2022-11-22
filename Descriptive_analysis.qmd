@@ -4,29 +4,38 @@ format: html
 editor: visual
 ---
 
+```{r,include=FALSE}
+library(tidyverse)
+```
+
+
+
+
 ## Data Set
+
 We are thinking about dealing with crime dataset. Here is the link of the data we are planning to used: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
 
 ## Data set Description
+
 This dataset reflects incidents of crime in the City of Los Angeles dating back to 2020. There are 521k rows (each row is a crime incident) and 28 columns (Variables).
 
-1. *DR_NO* - Division of records number: Official file number made up of a 2 digit year, area ID, and 5 digits.
+1.  *DR_NO* - Division of records number: Official file number made up of a 2 digit year, area ID, and 5 digits.
 
-2. *Date Rptd* - Reported date of the crime
+2.  *Date Rptd* - Reported date of the crime
 
-3. *Date OCC* - Occured date of the crime
+3.  *Date OCC* - Occured date of the crime
 
-4. *TIME OCC* - occured time of the crime in 24 hour military time.
+4.  *TIME OCC* - occured time of the crime in 24 hour military time.
 
-5. *AREA* - The Los Angeles Police Department has 21 community police Stations referred to as Geographic Areas within the department. These Geographic Areas are sequentially numbered from 1-21. 
+5.  *AREA* - The Los Angeles Police Department has 21 community police Stations referred to as Geographic Areas within the department. These Geographic Areas are sequentially numbered from 1-21.
 
-6. *AREA NAME* - Name designation of the area.
+6.  *AREA NAME* - Name designation of the area.
 
-7. *Rpt Dist No* - A four digit code that represents a sub area with a geographic Area.
+7.  *Rpt Dist No* - A four digit code that represents a sub area with a geographic Area.
 
-8. *Part 1-2* - no discription
+8.  *Part 1-2* - no discription
 
-9. *Crm cd* - indicates the crime committed (same as the *Crm cd 1*)
+9.  *Crm cd* - indicates the crime committed (same as the *Crm cd 1*)
 
 10. *Crm cd Desc* - Defines the crime Code Provided.
 
@@ -40,34 +49,129 @@ This dataset reflects incidents of crime in the City of Los Angeles dating back 
 
 15. *Premis Cd* - The type of structure, vehicle, or location where the crime took place.
 
+16. *Premis Desc* Defines the Premis Cd provided.
 
-## Potential Topics to Explore Using the Data Set
+17. *Weapon Used Cd* The type of weapon used in crime given as a code.
 
-We will explore following facts using the data.
+18. *Weapon Desc* Defines the code of the weapon used in crime.
 
-1. Which area has the highest number of crimes among the 21 Police Stations.
+19. *Status* Provides the status of the case in code.
 
-2. Create a table for area and the sub area to identify the most awful sub area.
+20. *Status Desc* Description of the status code provided.
 
-3. Use *Crm cd* and *Crm cd Desc* data to explore Which is the most frequent crime type.
+21. *Crm Cd 1* It indicates the crime committed where Crime Code 1 represents the most serious crime. 
 
-4. Present a Side by side box plot for the ages with most frequent 5 types of  crime in order to identify whether there is a targeted age for particular crime. 
+22. *Crm Cd 2* It also indicates the crime code but it is less serious than Crm Cd 1.
 
-5. Bar plot of crime type (crm cd) filled with victim sex, descent in order to identify whether there is a targeted sex, descent for particular crime.
+23. *Crm Cd 3* This crime code is for less serious crime than represented by Crm Cd 1 and Crm Cd 2.
+
+24. *Crm Cd 4* This crime code is for the least serious crime.
+
+25. *LOCATION* Street address of crime incident rounded to nearest hundred blocks.
+
+26. *Cross Street* Cross street of the rounded address.
+
+27. *LAT* Latitude.
+
+28. *LON* Longitude.
 
 
 ## Explonatory Analysis
 
 
 
+##### Here which sex group are the victim of which type of crimes.
 ```{r}
+data<-read.csv("Subset_data.csv")
+```
 
+```{r}
+for(i in 1:length(data$Crm.Cd.Desc)){
+if(str_detect(data$Crm.Cd.Desc[i],"ASSAULT")==TRUE & 
+   str_detect(data$Crm.Cd.Desc[i],"SEXUAL")!=TRUE){
+  data$crime[i]<-"ASSAULT"
+} else if(str_detect(data$Crm.Cd.Desc[i],"VIOLATION")==TRUE){
+  data$crime[i]<-"VIOLATION"
+}  else if(str_detect(data$Crm.Cd.Desc[i],"BURGLARY")==TRUE|
+           str_detect(data$Crm.Cd.Desc[i],"STOLEN")==TRUE|
+            str_detect(data$Crm.Cd.Desc[i],"THEFT")==TRUE){
+  data$crime[i]<-"BURGLARY"
+} else if(str_detect(data$Crm.Cd.Desc[i],"SEX")==TRUE|str_detect(data$Crm.Cd.Desc[i],"RAPE")==TRUE){
+  data$crime[i]<-"SEXUAL MISCONDUCT"
+} else if(str_detect(data$Crm.Cd.Desc[i],"VANDALISM")==TRUE){
+  data$crime[i]<-"VANDALISM"
+} else if(str_detect(data$Crm.Cd.Desc[i],"CRIMINAL")==TRUE|
+          str_detect(data$Crm.Cd.Desc[i],"WEAPON")==TRUE|
+          str_detect(data$Crm.Cd.Desc[i],"SHOTS")==TRUE|
+          str_detect(data$Crm.Cd.Desc[i],"THREAT")==TRUE|
+          str_detect(data$Crm.Cd.Desc[i],"KIDNAP")==TRUE){
+  data$crime[i]<-"CWSTK"
+} else if(str_detect(data$Crm.Cd.Desc[i],"ROBBERY")==TRUE){
+  data$crime[i]<-"ROBBERY"
+} else if(str_detect(data$Crm.Cd.Desc[i],"TRESPASSING")==TRUE){
+  data$crime[i]<-"TRESPASSING"
+}else data$crime[i]<-"OTHER CRIMES"
+}
+
+data$Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","Unknown"))
+```
+
+```{r}
+data %>%
+  group_by(crime,Sex) %>% 
+  count() %>% 
+  ungroup() %>% 
+      ggplot()+
+        aes(x=reorder(crime,n),y=n,fill=Sex)+
+        geom_col(position = "dodge")+
+        coord_flip()+
+          scale_fill_manual(values = c("blue", "black", "cyan"))+
+          labs(x="List of Crimes")+
+          theme_bw()
 ```
 
 
 
+##### Here the premises of some crimes are explored given that the premise appeared more than 3% of the times.
 ```{r}
-
+knitr::kable(data %>% 
+  filter(crime=="BURGLARY") %>% 
+  count(Premis.Desc) %>% 
+  mutate(prop=prop.table(n)) %>% 
+  filter(prop>0.030) %>% 
+  select(Premis.Desc) %>% 
+    rename("Premis of Burglary"="Premis.Desc"))
 ```
 
+
+```{r}
+knitr::kable(data %>% 
+  filter(crime=="ASSAULT") %>% 
+  count(Premis.Desc) %>% 
+  mutate(prop=prop.table(n)) %>% 
+  filter(prop>=0.03) %>% 
+  select(Premis.Desc) %>% 
+    rename("Premis of Assault"="Premis.Desc"))
+```
+
+
+```{r}
+knitr::kable(data %>% 
+  filter(crime=="SEXUAL MISCONDUCT") %>% 
+  count(Premis.Desc) %>% 
+  mutate(prop=prop.table(n)) %>% 
+  filter(prop>=0.03) %>% 
+  select(Premis.Desc) %>% 
+    rename("Premis of Sexual Misconduct"="Premis.Desc"))
+```
+
+```{r}
+knitr::kable(data %>% 
+  filter(crime=="CWSTK") %>% 
+  count(Premis.Desc) %>% 
+  mutate(prop=prop.table(n)) %>% 
+  filter(prop>=0.03) %>% 
+  select(Premis.Desc) %>% 
+    rename("Premis of CWSTK"="Premis.Desc"))
+```
 
