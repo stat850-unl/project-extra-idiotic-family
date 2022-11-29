@@ -80,7 +80,7 @@ data<-read.csv("Subset_data.csv")
 
 ### Method
 
-For the convenience of the analysis the variable (`Crm.Cd.Desc`) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as `ASSUALT`, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as `BURGLARY`, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as `CWSTK`, if the crime contained the word Sex or Rape then the crime was coded as `SEXUAL MISCONDUCT`, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as `OTHER CRIMES`. The missing values of variable `Vict.Sex` was coded as unknown. For some of the crimes that was coded the frequently occurred (More than 3%) premises in the data were presented.
+For the convenience of the analysis the variable (`Crm.Cd.Desc`) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as `ASSUALT`, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as `BURGLARY`, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as `Extreme crimes`, if the crime contained the word Sex or Rape then the crime was coded as `SEXUAL MISCONDUCT`, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as `OTHER CRIMES`. The missing values of variable `Vict.Sex` was coded as unknown. For some of the crimes that was coded the frequently occurred (More than 3%) premises in the data were presented.
 
 #### Codes for recoding
 
@@ -135,7 +135,7 @@ if(str_detect(data$Crm.Cd.Desc[i],"ASSAULT")==TRUE &
           str_detect(data$Crm.Cd.Desc[i],"SHOTS")==TRUE|
           str_detect(data$Crm.Cd.Desc[i],"THREAT")==TRUE|
           str_detect(data$Crm.Cd.Desc[i],"KIDNAP")==TRUE){
-  data$crime[i]<-"CWSTK"
+  data$crime[i]<-"EXTREME CRIMES"
 } else if(str_detect(data$Crm.Cd.Desc[i],"ROBBERY")==TRUE){
   data$crime[i]<-"ROBBERY"
 } else if(str_detect(data$Crm.Cd.Desc[i],"TRESPASSING")==TRUE){
@@ -150,6 +150,8 @@ data$Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","U
 
 #### Here which sex group are the victim of which type of crimes are plotted
 
+Now we will be exploring which sex group is experiencing which type of crime more or less. To explore that we are filling the occurrence of crimes with respect to the sex of the victim.
+
 ```{r}
 data %>%
   group_by(crime,Sex) %>% 
@@ -159,10 +161,12 @@ data %>%
         aes(x=reorder(crime,n),y=n,fill=Sex)+
         geom_col(position = "dodge")+
         coord_flip()+
-          scale_fill_manual(values = c("blue", "black", "cyan"))+
+          scale_fill_manual(values = c("#AE4371", "lightblue", "lightyellow"))+
           labs(x="List of Crimes",title="Visual representation of which Sex group is victim of which crime")+
           theme_bw()
 ```
+
+The graph gives us a view that burglary, assault, vandalism, robbery and extreme crimes are happening with the males more compared to females and people with un-identified sex in the data. The graph also demonstrates that females are more victim of crime like violation and sexual misconduct compared to males. It is also interesting to report that the crimes other than the specified ones are occurring both equally with males and females.
 
 #### Here the premises of some crimes are explored given that the premise appeared more than 3% of the times.
 
@@ -205,3 +209,16 @@ knitr::kable(data %>%
   select(Premis.Desc) %>% 
     rename("Premis of CWSTK"="Premis.Desc"))
 ```
+
+
+### Boxplot of Age distribution for each crime in the dataset
+
+```{r}
+ggplot(data=data)+
+  aes(x=crime,y=Vict.Age)+
+  geom_boxplot()+
+  labs(x="List of crimes",
+        y="Age",title ="Age variation according to the list of crimes")+
+  coord_flip()
+```
+
