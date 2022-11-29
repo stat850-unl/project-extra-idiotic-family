@@ -117,7 +117,6 @@ data$Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","U
 
 ### Analysis
 
-#### Here which sex group are the victim of which type of crimes are plotted
 
 Now we will be exploring which sex group is experiencing which type of crime more or less. To explore that we are filling the occurrence of crimes with respect to the sex of the victim.
 
@@ -137,7 +136,8 @@ data %>%
 
 The graph gives us a view that burglary, assault, vandalism, robbery and extreme crimes are happening with the males more compared to females and people with un-identified sex in the data. The graph also demonstrates that females are more victim of crime like violation and sexual misconduct compared to males. It is also interesting to report that the crimes other than the specified ones are occurring both equally with males and females.
 
-#### Here the premises of some crimes are explored given that the premise appeared more than 3% of the times.
+
+Now we will move to explore the premises of different crimes we defined for the convenience of our analysis. We are reporting the premises which appeared more than 3% of the times for the crimes.
 
 ```{r}
 knitr::kable(data %>% 
@@ -148,6 +148,8 @@ knitr::kable(data %>%
   select(Premis.Desc) %>% 
     rename("Premis of Burglary"="Premis.Desc"))
 ```
+We observe that driveway, garage, multi-unit or single family dwelling, street, parking lot are the frequently occurred premises for the crime burglary. 
+
 
 ```{r}
 knitr::kable(data %>% 
@@ -159,6 +161,8 @@ knitr::kable(data %>%
     rename("Premis of Assault"="Premis.Desc"))
 ```
 
+We also observe that assault are being reported frequently taking place in street, sidewalk, parking lot, and single family or multi-unit dwelling.
+
 ```{r}
 knitr::kable(data %>% 
   filter(crime=="SEXUAL MISCONDUCT") %>% 
@@ -169,16 +173,20 @@ knitr::kable(data %>%
     rename("Premis of Sexual Misconduct"="Premis.Desc"))
 ```
 
+The frequent premises of sexual misconduct is similar to the premises that were reported for burglary and assault but the interesting is that we found that police facility is a frequently occurred premise for the crime sexual misconduct.
+
+
 ```{r}
 knitr::kable(data %>% 
-  filter(crime=="CWSTK") %>% 
+  filter(crime=="EXTREME CRIMES") %>% 
   count(Premis.Desc) %>% 
   mutate(prop=prop.table(n)) %>% 
   filter(prop>=0.03) %>% 
   select(Premis.Desc) %>% 
-    rename("Premis of CWSTK"="Premis.Desc"))
+    rename("Premis of Extreme Crimes"="Premis.Desc"))
 ```
 
+As expected from the frequently occurred premises of previous crimes, the extreme crimes are also frequently happening in the street, parking lot, sidewalk, and dwelling's. But here alley is a new premise we observed in case of extreme crimes.
 
 ### Boxplot of Age distribution for each crime in the dataset
 
