@@ -265,10 +265,26 @@ knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
 Here you go we have found verbal threats are given frequently in case of committing extreme crimes in the data-set with hand gun and they are more used in case of males compared to females.
 
 
+## About case status
 
+This explores which type of cases are getting resolved mostly and which type are not. To do this we re-categorized the variable indicating case status into "Not Resolved" if the investigation is continued otherwise coded as "Resolved".
 
+```{r}
+data %>% 
+  mutate(status=ifelse(Status.Desc=="Invest Cont","Not Resolved","Resolved")) %>% 
+  select(crime,status) %>% 
+  group_by(crime,status) %>%
+  tally() %>% 
+  mutate(rel=prop.table(n)) %>% 
+  ggplot()+
+  aes(x=reorder(crime,n),y=rel,fill=status) %>% 
+  geom_col(position = "dodge")+
+  coord_flip()+
+  scale_fill_manual(values = c("peachpuff3", "lightskyblue"))+
+  labs(x="List of crimes",y="Relative frequency")
+```
 
-
+The graph demonstrates that the crime violation is getting resolved more than any any other crimes in the data-set. Trespassing, burglary, robbery, and sexual misconduct has a fairly large difference between proportion of resolved and not resolved cases. Assault and extreme crime type has shorter difference between proportion resolved and not resolved.
 
 
 
