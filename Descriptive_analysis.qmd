@@ -281,7 +281,7 @@ data %>%
   geom_col(position = "dodge")+
   coord_flip()+
   scale_fill_manual(values = c("peachpuff3", "lightskyblue"))+
-  labs(x="List of crimes",y="Relative frequency")
+  labs(x="List of crimes",y="Relative frequency",title="Status of the crimes",fill="Status")
 ```
 
 The graph demonstrates that the crime violation is getting resolved more than any any other crimes in the data-set. Trespassing, burglary, robbery, and sexual misconduct has a fairly large difference between proportion of resolved and not resolved cases. Assault and extreme crime type has shorter difference between proportion resolved and not resolved.
