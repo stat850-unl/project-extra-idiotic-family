@@ -78,7 +78,7 @@ This dataset reflects incidents of crime in the City of Los Angeles dating back 
 data<-read.csv("Subset_data.csv")
 ```
 
-### Method
+### Method and Analysis
 
 For the convenience of the analysis the variable (`Crm.Cd.Desc`) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as `ASSUALT`, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as `BURGLARY`, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as `Extreme crimes`, if the crime contained the word Sex or Rape then the crime was coded as `SEXUAL MISCONDUCT`, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as `OTHER CRIMES`. The missing values of variable `Vict.Sex` was coded as unknown. For some of the crimes that was coded the frequently occurred (More than 3%) premises in the data were presented.
 
@@ -146,9 +146,7 @@ if(str_detect(data$Crm.Cd.Desc[i],"ASSAULT")==TRUE &
 data$Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","Unknown"))
 ```
 
-### Analysis
-
-#### Here which sex group are the victim of which type of crimes are plotted
+## About victim of crime
 
 Now we will be exploring which sex group is experiencing which type of crime more or less. To explore that we are filling the occurrence of crimes with respect to the sex of the victim.
 
@@ -168,7 +166,9 @@ data %>%
 
 The graph gives us a view that burglary, assault, vandalism, robbery and extreme crimes are happening with the males more compared to females and people with un-identified sex in the data. The graph also demonstrates that females are more victim of crime like violation and sexual misconduct compared to males. It is also interesting to report that the crimes other than the specified ones are occurring both equally with males and females.
 
-#### Here the premises of some crimes are explored given that the premise appeared more than 3% of the times.
+## About premises of crime
+
+Now we will move to explore the premises of different crimes we defined for the convenience of our analysis. We are reporting the premises which appeared more than 3% of the times for the crimes.
 
 ```{r}
 knitr::kable(data %>% 
@@ -179,6 +179,8 @@ knitr::kable(data %>%
   select(Premis.Desc) %>% 
     rename("Premis of Burglary"="Premis.Desc"))
 ```
+We observe that driveway, garage, multi-unit or single family dwelling, street, parking lot are the frequently occurred premises for the crime burglary. 
+
 
 ```{r}
 knitr::kable(data %>% 
@@ -190,6 +192,8 @@ knitr::kable(data %>%
     rename("Premis of Assault"="Premis.Desc"))
 ```
 
+We also observe that assault are being reported frequently taking place in street, sidewalk, parking lot, and single family or multi-unit dwelling.
+
 ```{r}
 knitr::kable(data %>% 
   filter(crime=="SEXUAL MISCONDUCT") %>% 
@@ -200,25 +204,105 @@ knitr::kable(data %>%
     rename("Premis of Sexual Misconduct"="Premis.Desc"))
 ```
 
+The frequent premises of sexual misconduct is similar to the premises that were reported for burglary and assault but the interesting is that we found that police facility is a frequently occurred premise for the crime sexual misconduct.
+
+
 ```{r}
 knitr::kable(data %>% 
-  filter(crime=="CWSTK") %>% 
+  filter(crime=="EXTREME CRIMES") %>% 
   count(Premis.Desc) %>% 
   mutate(prop=prop.table(n)) %>% 
   filter(prop>=0.03) %>% 
   select(Premis.Desc) %>% 
-    rename("Premis of CWSTK"="Premis.Desc"))
+    rename("Premis of Extreme Crimes"="Premis.Desc"))
 ```
 
+As expected from the frequently occurred premises of previous crimes, the extreme crimes are also frequently happening in the street, parking lot, sidewalk, and dwelling's. But here alley is a new premise we observed in case of extreme crimes.
 
-### Boxplot of Age distribution for each crime in the dataset
+## About weapons used in crime
 
+In this part we explored the question that whether for committing a particular type of crime commit-er has preference over the weapons based on the victim's sex. We explored for the weapons used more than 10 times for committing a particular crime in the data-set. 
+
+##### Assault
+
+In line with that the first crime we explored is Assault.
 ```{r}
-ggplot(data=data)+
-  aes(x=crime,y=Vict.Age)+
-  geom_boxplot()+
-  labs(x="List of crimes",
-        y="Age",title ="Age variation according to the list of crimes")+
-  coord_flip()
+weapon<-data %>% 
+  filter(crime=="ASSAULT") %>% 
+  count(Weapon.Desc) %>% 
+  filter(n>=10) %>% 
+  select(Weapon.Desc)
+weapon<-weapon$Weapon.Desc  
+weapon2<-data %>% 
+  filter(crime=="ASSAULT",Weapon.Desc %in% weapon) %>% 
+    select(Weapon.Desc,Sex)
+knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
 ```
+
+From the contingency table, it is observed that hand gun, semi-automated pistol are more used in case of Male for committing assault compared to in case of female. And bodily force is used more in case of female compared to male.
+
+
+##### Sexual Misconduct
+
+In this part we explored about the weapons used in terms of victim's sex for the crime sexual misconduct.
+```{r}
+weapon<-data %>% 
+  filter(crime=="SEXUAL MISCONDUCT") %>% 
+  count(Weapon.Desc) %>% 
+  filter(n>=10) %>% 
+  select(Weapon.Desc)
+weapon<-weapon$Weapon.Desc  
+weapon2<-data %>% 
+  filter(crime=="SEXUAL MISCONDUCT",Weapon.Desc %in% weapon) %>% 
+  select(Weapon.Desc,Sex)
+knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
+```
+We observe that in case of committing sexual miscoduct bodily force is mostly used in case of female compared to male's.
+
+
+
+##### Robbery
+
+Let's look for robbery now.
+```{r}
+weapon<-data %>% 
+  filter(crime=="ROBBERY") %>% 
+  count(Weapon.Desc) %>% 
+  filter(n>=10) %>% 
+  select(Weapon.Desc)
+weapon<-weapon$Weapon.Desc  
+weapon2<-data %>% 
+  filter(crime=="ROBBERY",Weapon.Desc %in% weapon) %>% 
+  select(Weapon.Desc,Sex)
+knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
+```
+As cliche as it sounds, the commit-er has preference for hand gun, semi-automated pistol, and bodily force more for male's compared to female's in case of committing robbery.
+
+
+##### Extreme crimes
+Though not that much extreme crimes in the dataset still let's look at the weapons preference.
+```{r}
+weapon<-data %>% 
+  filter(crime=="EXTREME CRIMES") %>% 
+  count(Weapon.Desc) %>% 
+  filter(n>=10) %>% 
+  select(Weapon.Desc)
+weapon<-weapon$Weapon.Desc  
+weapon2<-data %>% 
+  filter(crime=="EXTREME CRIMES",Weapon.Desc %in% weapon) %>% 
+  select(Weapon.Desc,Sex)
+knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
+```
+Here you go we have found verbal threats are given frequently in case of committing extreme crimes in the data-set with hand gun and they are more used in case of males compared to females.
+
+
+
+
+
+
+
+
+
+
+
 
