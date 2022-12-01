@@ -75,45 +75,35 @@ This dataset reflects incidents of crime in the City of Los Angeles dating back 
 ### Loading data
 
 ```{r}
-data<-read.csv("Subset_data.csv")
+crime<-read.csv("Subset_data.csv")
 ```
 
-### Method and Analysis
-
-For the convenience of the analysis the variable (`Crm.Cd.Desc`) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as `ASSUALT`, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as `BURGLARY`, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as `Extreme crimes`, if the crime contained the word Sex or Rape then the crime was coded as `SEXUAL MISCONDUCT`, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as `OTHER CRIMES`. The missing values of variable `Vict.Sex` was coded as unknown. For some of the crimes that was coded the frequently occurred (More than 3%) premises in the data were presented.
-
-#### Codes for recoding
+Next we check the missing values in each variable.
 
 ```{r}
 #count total missing values in each column of data frame
-sapply(data, function(x) sum(is.na(x)))
-```
-```{r}
-ggplot(data, aes(x = AREA.NAME, fill=AREA.NAME)) + 
-  geom_histogram(aes(y = ..count..), stat = "count", 
-                                    binwidth = 1,
-                                    bins = 3,
-                                    origin = 1,
-                                    right = TRUE) + 
-  geom_text(stat='count', aes(label=..count..), vjust=-1)
+sapply(crime, function(x) sum(is.na(x)))
 ```
 
+we identify some variables which has many missing values and which we are not going to use under our analysis.So, we remove those variables from the sample data set.
 
 ```{r}
-Area_max <- data %>% 
-            group_by(AREA.NAME) %>%
-            count(name = "count") %>%
-            arrange(desc(count))%>% print(n=10)
+data <- select(crime,-c(DR_NO,Date.Rptd,DATE.OCC,TIME.OCC,Part.1.2,Crm.Cd.1,Crm.Cd.2,
+                        Crm.Cd.3,Crm.Cd.4))
 ```
+
+Since the key variables in this data set are ('Crm.Cd.Desc') & ('Crm.Cd'), which tell us about the crime committed, we wanted to analyze the behavior of these variables first.
+
 ```{r}
-#Find the 10 mostly occurred crime type
-crime_high <- data %>% 
-              group_by(Crm.Cd.Desc) %>%
-              count(name = "count") %>%
-              arrange(desc(count))%>% print(n=10)
+table(data$Crm.Cd.Desc)
 ```
 
+So, we identify that most of the crimes have common characteristics even though the Crime description is different to each other.Therefore,we re-categorize the crimes as follows.
 
+
+For the convenience of the analysis the variable (`Crm.Cd.Desc`) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as `ASSUALT`, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as `BURGLARY`, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as `Extreme crimes`, if the crime contained the word Sex or Rape then the crime was coded as `SEXUAL MISCONDUCT`, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as `OTHER CRIMES`. 
+
+#### Codes for recoding
 
 ```{r}
 for(i in 1:length(data$Crm.Cd.Desc)){
@@ -143,20 +133,130 @@ if(str_detect(data$Crm.Cd.Desc[i],"ASSAULT")==TRUE &
 }else data$crime[i]<-"OTHER CRIMES"
 }
 
-data$Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","Unknown"))
 ```
 
-## About victim of crime
+The missing values of variable `Vict.Sex` was coded as unknown and replace into the same variable.
+
+```{r}
+data$Vict.Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","Unknown"))
+```
+
+Next we focused about the descent of the Victims.
+
+```{r}
+table(data$Vict.Descent)
+```
+
+We identified that mainly victims are belong to 5 types of descent and rest of the minor descents are renamed as Minor and unknown" and replace into the same variable.
+
+```{r}
+data$Vict.Descent<-ifelse(data$Vict.Descent=="A","Other Asian",
+                          ifelse(data$Vict.Descent=="B","Black",
+                            ifelse(data$Vict.Descent=="H","Hispanic/Latin/Mexican",
+                              ifelse(data$Vict.Descent=="O","Other",
+                                ifelse(data$Vict.Descent == "W","White","Minor & Unknown")
+                                        ))))
+```
+
+Since victims' age is a targeted variable under the analysis. we are going to observe whether there are any unusual observations in the data set.
+
+```{r}
+table(crime$Vict.Age)
+```
+
+we can clearly see that there are 511 observations recorded under 0 age. we believe that, the owner has input 0 for the missing records. So, we dicided to replace them with the mean of the victims' age.
+
+```{r}
+data$Vict.Age <- ifelse(data$Vict.Age == "0", mean(data$Vict.Age),data$Vict.Age)
+table(data$Vict.Age)
+```
+
+The Los Angeles Police Department has 21 community police Stations referred to as Geographic Areas within the department. Now we are trying to come up with an answer, which geographic area has the highest number of crimes recorded.
+
+To answer this we are going to use a horizontal bar graph.
+
+
+```{r}
+ggplot(data , aes(x = AREA.NAME, fill=AREA.NAME)) + 
+  geom_bar(aes(y = ..count..), stat = "count") + 
+  geom_text(stat='count', aes(label=..count..), vjust= 0)+ coord_flip()
+```
+
+According to this bar chart it is obvious that the 77th street has the highest number of crimes occurred.Among the 21 geographic areas, 10o+ crimes have been reported over 10 areas.
+
+Now, let's conduct a crime-wise analysis for the geographic areas.
+
+
+```{r}
+ggplot(data, aes(x = AREA.NAME, fill=AREA.NAME)) + 
+  geom_bar(aes(y = ..count..), stat = "count") + 
+  geom_text(stat='count', aes(label=..count..), vjust=0)+ coord_flip()+
+  facet_wrap(~crime)
+```
+
+This set of Bar plots give an idea regrading what type of crimes frequently happened in Particular area. Since Burglary and Assault has a significant occurrence, let's repolt them separately.
+
+```{r}
+ggplot(data, aes(x = AREA.NAME, fill=AREA.NAME)) + 
+  geom_bar(aes(y = ..count..), stat = "count") + 
+  geom_text(stat='count', aes(label=..count..), vjust=0)+ coord_flip()+
+  facet_wrap(~crime=="BURGLARY")
+```
+
+True column depicts the count of burglary in each area. Majority of crimes recorded in each area, belongs to the Burglary category.
+
+```{r}
+ggplot(data, aes(x = AREA.NAME, fill=AREA.NAME)) + 
+  geom_bar(aes(y = ..count..), stat = "count") + 
+  geom_text(stat='count', aes(label=..count..), vjust=0)+ coord_flip()+
+  facet_wrap(~crime=="ASSAULT")
+```
+
+True column depicts the count of Assault in each area.
+
+Next we try to focus about victims' age and descent, to explore the patterns between crime and the respective variables.
+
+we plot a side by side Box plot with the victim's age.
+
+```{r}
+ggplot(data=data)+
+  aes(x=crime,y=Vict.Age)+
+  geom_boxplot()+
+  labs(x="List of crimes",
+       y="Age",title ="Age variation according to the  crimes")+
+  stat_summary(fun = mean, geom = "point", col = "green") +  
+  stat_summary(fun = mean, geom = "text", col = "red",    
+               vjust = 1.5, aes(label = paste("Mean:", round(..y.., digits = 1))))+
+  coord_flip()
+```
+
+This Box plot gives us a nice interpretation. When we focused about the IQ range we can roughly say majority of victims are in between 25 and 50 for all the crimes except the sexual misconduct. Criminals have targeted a lower age ranges while committing crimes related to the sex.
+
+```{r}
+data %>%
+  group_by(crime,Vict.Descent) %>% 
+  count() %>% 
+  ungroup() %>% 
+      ggplot()+
+        aes(x=reorder(crime,n),y=n,fill=Vict.Descent)+
+        geom_col(position = "dodge")+
+        coord_flip()+
+          scale_fill_manual(values = c("#242424", "#00F5FF","#FF3E96" , "#00FF7F", "#FF8247", "#FFF68F"))+
+          labs(x="List of Crimes",title="Visual representation between Descent and Crime type")+
+          theme_bw()
+```
+
+We thought it is better to neglect the minor & unknown category, since we can't get an idea about the descent. So, Victims related to Hispanic/Latin/Mexican have faced every type of crime except for the burglary, where the white people have faced it more.
 
 Now we will be exploring which sex group is experiencing which type of crime more or less. To explore that we are filling the occurrence of crimes with respect to the sex of the victim.
 
 ```{r}
 data %>%
-  group_by(crime,Sex) %>% 
+  group_by(crime,Vict.Sex) %>% 
   count() %>% 
   ungroup() %>% 
       ggplot()+
-        aes(x=reorder(crime,n),y=n,fill=Sex)+
+        aes(x=reorder(crime,n),y=n,fill=Vict.Sex)+
         geom_col(position = "dodge")+
         coord_flip()+
           scale_fill_manual(values = c("#AE4371", "lightblue", "lightyellow"))+
@@ -165,6 +265,7 @@ data %>%
 ```
 
 The graph gives us a view that burglary, assault, vandalism, robbery and extreme crimes are happening with the males more compared to females and people with un-identified sex in the data. The graph also demonstrates that females are more victim of crime like violation and sexual misconduct compared to males. It is also interesting to report that the crimes other than the specified ones are occurring both equally with males and females.
+
 
 ## About premises of crime
 
@@ -179,8 +280,8 @@ knitr::kable(data %>%
   select(Premis.Desc) %>% 
     rename("Premis of Burglary"="Premis.Desc"))
 ```
-We observe that driveway, garage, multi-unit or single family dwelling, street, parking lot are the frequently occurred premises for the crime burglary. 
 
+We observe that driveway, garage, multi-unit or single family dwelling, street, parking lot are the frequently occurred premises for the crime burglary.
 
 ```{r}
 knitr::kable(data %>% 
@@ -206,7 +307,6 @@ knitr::kable(data %>%
 
 The frequent premises of sexual misconduct is similar to the premises that were reported for burglary and assault but the interesting is that we found that police facility is a frequently occurred premise for the crime sexual misconduct.
 
-
 ```{r}
 knitr::kable(data %>% 
   filter(crime=="EXTREME CRIMES") %>% 
@@ -221,11 +321,12 @@ As expected from the frequently occurred premises of previous crimes, the extrem
 
 ## About weapons used in crime
 
-In this part we explored the question that whether for committing a particular type of crime commit-er has preference over the weapons based on the victim's sex. We explored for the weapons used more than 10 times for committing a particular crime in the data-set. 
+In this part we explored the question that whether for committing a particular type of crime commit-er has preference over the weapons based on the victim's sex. We explored for the weapons used more than 10 times for committing a particular crime in the data-set.
 
 ##### Assault
 
 In line with that the first crime we explored is Assault.
+
 ```{r}
 weapon<-data %>% 
   filter(crime=="ASSAULT") %>% 
@@ -235,16 +336,16 @@ weapon<-data %>%
 weapon<-weapon$Weapon.Desc  
 weapon2<-data %>% 
   filter(crime=="ASSAULT",Weapon.Desc %in% weapon) %>% 
-    select(Weapon.Desc,Sex)
-knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
+    select(Weapon.Desc,Vict.Sex)
+knitr::kable(table(weapon2$Weapon.Desc,weapon2$Vict.Sex))
 ```
 
 From the contingency table, it is observed that hand gun, semi-automated pistol are more used in case of Male for committing assault compared to in case of female. And bodily force is used more in case of female compared to male.
 
-
 ##### Sexual Misconduct
 
 In this part we explored about the weapons used in terms of victim's sex for the crime sexual misconduct.
+
 ```{r}
 weapon<-data %>% 
   filter(crime=="SEXUAL MISCONDUCT") %>% 
@@ -254,16 +355,16 @@ weapon<-data %>%
 weapon<-weapon$Weapon.Desc  
 weapon2<-data %>% 
   filter(crime=="SEXUAL MISCONDUCT",Weapon.Desc %in% weapon) %>% 
-  select(Weapon.Desc,Sex)
-knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
+  select(Weapon.Desc,Vict.Sex)
+knitr::kable(table(weapon2$Weapon.Desc,weapon2$Vict.Sex))
 ```
+
 We observe that in case of committing sexual miscoduct bodily force is mostly used in case of female compared to male's.
-
-
 
 ##### Robbery
 
 Let's look for robbery now.
+
 ```{r}
 weapon<-data %>% 
   filter(crime=="ROBBERY") %>% 
@@ -273,14 +374,16 @@ weapon<-data %>%
 weapon<-weapon$Weapon.Desc  
 weapon2<-data %>% 
   filter(crime=="ROBBERY",Weapon.Desc %in% weapon) %>% 
-  select(Weapon.Desc,Sex)
-knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
+  select(Weapon.Desc,Vict.Sex)
+knitr::kable(table(weapon2$Weapon.Desc,weapon2$Vict.Sex))
 ```
+
 As cliche as it sounds, the commit-er has preference for hand gun, semi-automated pistol, and bodily force more for male's compared to female's in case of committing robbery.
 
-
 ##### Extreme crimes
+
 Though not that much extreme crimes in the dataset still let's look at the weapons preference.
+
 ```{r}
 weapon<-data %>% 
   filter(crime=="EXTREME CRIMES") %>% 
@@ -290,19 +393,8 @@ weapon<-data %>%
 weapon<-weapon$Weapon.Desc  
 weapon2<-data %>% 
   filter(crime=="EXTREME CRIMES",Weapon.Desc %in% weapon) %>% 
-  select(Weapon.Desc,Sex)
-knitr::kable(table(weapon2$Weapon.Desc,weapon2$Sex))
+  select(Weapon.Desc,Vict.Sex)
+knitr::kable(table(weapon2$Weapon.Desc,weapon2$Vict.Sex))
 ```
+
 Here you go we have found verbal threats are given frequently in case of committing extreme crimes in the data-set with hand gun and they are more used in case of males compared to females.
-
-
-
-
-
-
-
-
-
-
-
-
