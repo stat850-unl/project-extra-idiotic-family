@@ -204,6 +204,16 @@ According to this bar chart it is obvious that the 77th street has the highest n
 
 ### Occurrence of crime in different areas
 
+```{r}
+knitr::kable(data %>% 
+  select(crime) %>% 
+  count(crime) %>% 
+  rename("crime type"="crime"))
+
+```
+
+Here we identified among all the crime types, Burglary and Assault have been reported more. so we carried out and seperate study for each.
+
 This set of Bar plots give an idea regrading what type of crimes frequently happened in Particular area. Since Burglary and Assault has a significant occurrence, we are reporting them separately.
 
 ```{r}
