@@ -281,7 +281,7 @@ knitr::kable(data %>%
     rename("Premis of Assault"="Premis.Desc"))
 ```
 
-We also observe that assault are being reported frequently taking place in street, sidewalk, parking lot, and single family or multi-unit dwelling.
+We also observe that assault is being reported frequently taking place in street, sidewalk, parking lot, and single family or multi-unit dwelling.
 
 ```{r}
 knitr::kable(data %>% 
@@ -309,7 +309,7 @@ As expected from the frequently occurred premises of previous crimes, the extrem
 
 ## About weapons used in crime
 
-In this part we explored the question that whether for committing a particular type of crime commit-er has preference over the weapons based on the victim's sex. We explored for the weapons used more than 10 times for committing a particular crime in the data-set.
+In this part we explored the question that whether for committing a particular type of crime commit-er has preference over the weapons based on the victim's sex. We reported the weapons used more than 10 times for committing a particular crime in the data-set.
 
 ##### Assault
 
@@ -407,7 +407,7 @@ data %>%
   labs(x="List of crimes",y="Relative frequency",title="Status of the crimes",fill="Status")
 ```
 
-The graph demonstrates that the crime violation is getting resolved more than any any other crimes in the data-set. Trespassing, burglary, robbery, and sexual misconduct has a fairly large difference between proportion of resolved and not resolved cases. Assault and extreme crime type has shorter difference between proportion resolved and not resolved.
+The graph demonstrates that the crime violation is getting resolved more than any any other crimes in the data-set. Trespassing, burglary, robbery, and sexual misconduct has a fairly large difference between proportion of resolved and not resolved cases. Assault and extreme crime has shorter difference between proportion resolved and not resolved.
 
 
 
