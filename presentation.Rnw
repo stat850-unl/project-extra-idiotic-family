@@ -1,0 +1,488 @@
+\documentclass{beamer}
+\mode<presentation>
+{
+  \usetheme{default}                    % Set theme
+  \usecolortheme{default}               % Set colors
+  \usefonttheme{default}                % Set font theme
+  \setbeamertemplate{caption}[numbered] % Set caption to be numbered
+}
+
+\usepackage{graphicx}  % For including figures
+\usepackage{booktabs}  % For table rules
+\usepackage{hyperref}
+\usepackage{siunitx}
+\title{Exploratory Analysis of a Crime Data}  % Presentation title
+\author{Team: Extra-Idiotic Family}                              % Presentation author
+\institute{University of Nebraska-Lincoln}                  % Author affiliation
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}{Dataset Discription}
+
+This dataset reflects incidents of crime in the City of Los Angeles dating back to 2020. There are 521k rows (each row is a crime incident) and 28 columns (Variables)
+
+Data set link: \href{https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8}{here}.
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.5\textwidth]{figure/title.jpg}
+\end{knitrout}
+\end{frame}
+
+\begin{frame}{Variables Used under Analysis}
+
+\begin{itemize}
+\item Initially there were 28 variables in the data set.
+\item We focused only several variables for our analysis.
+\end{itemize}
+
+
+
+\begin{tabular}{|c||c|}
+\hline
+    Variable & Description \\ 
+\hline
+    AREA & Geographic Areas in Los-Angeles \\ 
+\hline
+    AREA NAME & Name designation of the area \\ 
+\hline
+Crm cd & crime code\\
+\hline
+Crm cd Desc & Defines the crime Code Provided\\
+\hline
+Vict Age & Age of the Victim\\
+\hline
+Vict Sex & Sex of the Victim\\
+\hline
+Vict Descent & Descent Code of the Victim\\
+\hline
+Premis Desc & Premises Description\\
+\hline
+Weapon Desc & weapon used in crime\\
+\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]{Method and analysis (re-categorizing crimes)}
+\begin{itemize}
+\item originally there were 73 types of crime.
+\item We re-categorized them as follows
+\end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/crime_types.png} 
+\end{knitrout}
+
+\end{frame}
+
+\begin{frame}[fragile]{Method and analysis (Cleaning Age variable)}
+\begin{columns}
+		\column{.6\textwidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/hist_age.png} 
+\end{knitrout}
+
+\column{.4\textwidth}
+\textbf{Highlights}
+\begin{itemize}
+\item Unusual number of Zero records.
+\item replace them with median of age. 
+\item continue the analysis.
+
+\end{itemize}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Method and analysis (Re-categorizing Descent variable)}
+\begin{columns}
+		\column{.5\textwidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/Des_categories.png} 
+\end{knitrout}
+
+\column{.5\textwidth}
+\begin{tabular}{|c||c|}
+\hline
+    Symbol & Descecnt \\ 
+\hline
+    A & Other Asian \\ 
+\hline
+    B & Black \\ 
+\hline
+H & Hispanic/Latin/Mexican\\
+\hline
+O & other\\
+\hline
+W & white\\
+\hline
+ & Minor or Unknown\\
+\hline
+
+\end{tabular}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship with the area and the crime}
+
+which area is the most awfull to live.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/place.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item 77th street has the highest number of crimes.
+\item 100+ crimes have been reported over some other areas
+\item Please avoid those areas.
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Which type of crimes ocured most}
+\begin{columns}
+		\column{.5\textwidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/crime_types.png} 
+\end{knitrout}
+
+\column{.5\textwidth}
+\textbf{Highlights}
+\begin{itemize}
+\item Burglary And Assault
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/bur.jpg} 
+\end{knitrout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/as.jpg} 
+\end{knitrout}
+\end{itemize}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship between the area and the crime "Assault"}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/assault.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item 77th street 
+\item Southeast, Olymic, Hollywood, Central
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship between the area and the crime "Burglary"}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/burglary.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item Pacific 
+\item West LA, Northeast, N Hollywood, Central
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship between the age and the crime type}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/box_age.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item Sexual Misconduct
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship between the Descent and the crime type}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/descent.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item Burglary -> White people
+\item All other types -> Hispanic/Latin/Mexican people
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Crime and Victim's Sex}
+<<eval = T,include=F>>=
+data<-read.csv("Subset_data.csv")
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+for(i in 1:length(data$Crm.Cd.Desc)){
+if(str_detect(data$Crm.Cd.Desc[i],"ASSAULT")==TRUE & 
+   str_detect(data$Crm.Cd.Desc[i],"SEXUAL")!=TRUE){
+  data$crime[i]<-"ASSAULT"
+} else if(str_detect(data$Crm.Cd.Desc[i],"VIOLATION")==TRUE){
+  data$crime[i]<-"VIOLATION"
+}  else if(str_detect(data$Crm.Cd.Desc[i],"BURGLARY")==TRUE|
+           str_detect(data$Crm.Cd.Desc[i],"STOLEN")==TRUE|
+            str_detect(data$Crm.Cd.Desc[i],"THEFT")==TRUE){
+  data$crime[i]<-"BURGLARY"
+} else if(str_detect(data$Crm.Cd.Desc[i],"SEX")==TRUE|str_detect(data$Crm.Cd.Desc[i],"RAPE")==TRUE){
+  data$crime[i]<-"SEXUAL MISCONDUCT"
+} else if(str_detect(data$Crm.Cd.Desc[i],"VANDALISM")==TRUE){
+  data$crime[i]<-"VANDALISM"
+} else if(str_detect(data$Crm.Cd.Desc[i],"CRIMINAL")==TRUE|
+          str_detect(data$Crm.Cd.Desc[i],"WEAPON")==TRUE|
+          str_detect(data$Crm.Cd.Desc[i],"SHOTS")==TRUE|
+          str_detect(data$Crm.Cd.Desc[i],"THREAT")==TRUE|
+          str_detect(data$Crm.Cd.Desc[i],"KIDNAP")==TRUE){
+  data$crime[i]<-"EXTREME CRIMES"
+} else if(str_detect(data$Crm.Cd.Desc[i],"ROBBERY")==TRUE){
+  data$crime[i]<-"ROBBERY"
+} else if(str_detect(data$Crm.Cd.Desc[i],"TRESPASSING")==TRUE){
+  data$crime[i]<-"TRESPASSING"
+}else data$crime[i]<-"OTHER CRIMES"
+}
+data$Vict.Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","Unknown"))
+@
+\begin{itemize}
+\item Explore which sex groups are facing which type of crime more.
+\item The variable victim's sex was coded as Male, Female, and Unknown (Missing or reported as unknown).
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Answer to Crime and Victim's Sex}
+\begin{columns}
+		\column{.6\textwidth}
+<<eval = T, echo = F, tidy = T>>=
+data %>%
+  group_by(crime,Vict.Sex) %>% 
+  count() %>% 
+  ungroup() %>% 
+      ggplot()+
+        aes(x=reorder(crime,n),y=n,fill=Vict.Sex)+
+        geom_col(position = "dodge")+
+        coord_flip()+
+          scale_fill_manual(values = c("#AE4371", "lightblue", "lightyellow"))+
+          labs(x="List of Crimes",title="Visual representation of which Sex group is victim of which crime")+
+          theme_bw()+
+          theme(aspect.ratio = 1.6)
+@
+
+\column{.4\textwidth}
+\textbf{Highlights}
+\begin{itemize}
+\item Burglary, assault, vandalism, robbery and extreme crimes are mostly happening with the males.
+\item Females are more victim of violation and sexual misconduct compared to males. 
+\item Crimes other than the specified ones are occurring both equally.
+
+\end{itemize}
+
+\end{columns}
+\end{frame} 
+
+
+\begin{frame}[fragile]{Premises of crime}
+
+\begin{itemize}
+\item Explore the premises of different crimes we defined.
+\item We are reporting the premises which appeared more than 3\% of the times for the crimes.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Premises of Burglary}
+<<eval = T, echo = F, tidy = T>>=
+knitr::kable(data %>% 
+  filter(crime=="BURGLARY") %>% 
+  count(Premis.Desc) %>% 
+  mutate(prop=prop.table(n)) %>% 
+  filter(prop>0.030) %>% 
+  select(Premis.Desc) %>% 
+    rename("Premises of Burglary"="Premis.Desc"))
+@
+\vspace{0.5cm}
+\textbf{Highlights}: Driveway, garage, multi-unit or single family dwelling, street, parking lot are the frequently occurred premises for the crime burglary.
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Premises of Assault}
+<<eval = T, echo = F, tidy = T>>=
+knitr::kable(data %>% 
+  filter(crime=="ASSAULT") %>% 
+  count(Premis.Desc) %>% 
+  mutate(prop=prop.table(n)) %>% 
+  filter(prop>=0.03) %>% 
+  select(Premis.Desc) %>% 
+    rename("Premis of Assault"="Premis.Desc"))
+@
+\vspace{0.5cm}
+\textbf{Highlights}: Assault is being reported frequently taking place in street, sidewalk, parking lot, and single family or multi-unit dwelling.
+\end{frame}
+
+\begin{frame}[fragile]{Premis of Sexual Misconduct}
+
+<<eval = T, echo = F, tidy = T>>=
+knitr::kable(data %>% 
+  filter(crime=="SEXUAL MISCONDUCT") %>% 
+  count(Premis.Desc) %>% 
+  mutate(prop=prop.table(n)) %>% 
+  filter(prop>=0.03) %>% 
+  select(Premis.Desc) %>% 
+    rename("Premis of Sexual Misconduct"="Premis.Desc"))
+@
+\vspace{0.5cm}
+\textbf{Highlights}: Sexual misconduct is similar to the premises that were reported for burglary and assault but the interesting is that we found that \textbf{police facility} is a frequently occurred premise.
+\end{frame}
+
+
+\begin{frame}[fragile]{Premis of Extreme Crimes}
+
+<<eval = T, echo = F, tidy = T>>=
+knitr::kable(data %>% 
+  filter(crime=="EXTREME CRIMES") %>% 
+  count(Premis.Desc) %>% 
+  mutate(prop=prop.table(n)) %>% 
+  filter(prop>=0.03) %>% 
+  select(Premis.Desc) %>% 
+    rename("Premis of Extreme Crimes"="Premis.Desc"))
+@
+\vspace{0.5cm}
+\textbf{Highlights}: Alley is a new premise we observed in case of extreme crimes and rest of the premises are same as observed for previous crimes. 
+\end{frame}
+
+
+\begin{frame}[fragile]{Weapons used in crime}
+
+
+\begin{itemize}
+\item we explored whether for committing a particular type of crime commit-er has preference over the weapons based on the victim's sex.
+
+\item We reported the weapons used more than 10 times for committing a particular crime in the data-set.
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Answer to weapons used in Assault}
+<<eval = T, echo = F, tidy = T>>=
+weapon<-data %>% 
+  filter(crime=="ASSAULT") %>% 
+  count(Weapon.Desc) %>% 
+  filter(n>=10) %>% 
+  select(Weapon.Desc)
+weapon<-weapon$Weapon.Desc  
+data %>% 
+  filter(crime=="ASSAULT",Weapon.Desc %in% weapon) %>% 
+    select(Weapon.Desc,Vict.Sex) %>% 
+    count(Weapon.Desc,Vict.Sex) %>% 
+    ggplot() +
+  aes(x=Weapon.Desc,y=n,fill=Vict.Sex) %>% 
+  geom_col(position="dodge") +
+  coord_flip()+
+  labs(x="",fill="Victim's Sex",title="Weapons used for assault (Split by sex)")+
+  scale_fill_manual(values = c("#AE4371", "lightblue", "lightyellow"))+
+  theme(aspect.ratio = 0.95)
+@
+
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Answer to weapons used in sexual misconduct}
+<<eval = T, echo = F, tidy = T>>=
+weapon<-data %>% 
+  filter(crime=="SEXUAL MISCONDUCT") %>% 
+  count(Weapon.Desc) %>% 
+  filter(n>=10) %>% 
+  select(Weapon.Desc)
+weapon<-weapon$Weapon.Desc  
+data %>% 
+  filter(crime=="SEXUAL MISCONDUCT",Weapon.Desc %in% weapon) %>% 
+    select(Weapon.Desc,Vict.Sex) %>% 
+    count(Weapon.Desc,Vict.Sex) %>% 
+    ggplot() +
+  aes(x=Weapon.Desc,y=n,fill=Vict.Sex) %>% 
+  geom_col(position="dodge") +
+  coord_flip()+
+  labs(x="",fill="Victim's Sex",title="Weapon used for sexual misconduct")+
+  scale_fill_manual(values = c("#AE4371", "lightblue", "lightyellow"))+
+  theme(aspect.ratio = 0.95)
+@
+\end{frame}
+
+
+\begin{frame}[fragile]{Current status of the crimes}
+
+
+\begin{itemize}
+\item We explored which type of crimes are getting resolved mostly and which type are not
+
+\item We re-categorized the variable indicating case status into "Not Resolved" if the investigation is continued otherwise coded as "Resolved".
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Answer to status of the crimes}
+\begin{columns}
+		\column{.55\textwidth}
+<<eval = T, echo = F, tidy = T>>=
+data %>% 
+  mutate(status=ifelse(Status.Desc=="Invest Cont","Not Resolved","Resolved")) %>% 
+  select(crime,status) %>% 
+  group_by(crime,status) %>%
+  tally() %>% 
+  mutate(rel=prop.table(n)) %>% 
+  ggplot()+
+  aes(x=reorder(crime,n),y=rel,fill=status) %>% 
+  geom_col(position = "dodge")+
+  coord_flip()+
+  scale_fill_manual(values = c("peachpuff3", "lightskyblue"))+
+  labs(x="List of crimes",y="Relative frequency",title="Status of the crimes",fill="Status")+
+          theme(aspect.ratio = 1.6)
+@
+
+\column{.45\textwidth}
+\textbf{Highlights}
+\begin{itemize}
+\item The crime violation is getting resolved more than any any other crimes in the data-set.
+\item Trespassing, burglary, robbery, and sexual misconduct has a fairly large difference between proportion of resolved and not resolved cases. 
+\item Assault and extreme crime has shorter difference between proportion resolved and not resolved.
+
+\end{itemize}
+
+\end{columns}
+\end{frame} 
+
+
+
+\end{document}
