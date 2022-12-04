@@ -73,6 +73,7 @@ This dataset reflects incidents of crime in the City of Los Angeles dating back 
 28. *LON* Longitude.
 
 ### Loading data
+
 Since the original data set is huge, we decided to extract a sample of data (2000 observations) and continue the analysis.
 
 ```{r}
@@ -86,22 +87,22 @@ Next we check the missing values in each variable.
 sapply(crime, function(x) sum(is.na(x)))
 ```
 
-we identify some variables which has many missing values and which we are not going to use under our analysis.So, we remove those variables from the  sample data set.
+we identify some variables which has many missing values and which we are not going to use under our analysis.So, we remove those variables from the sample data set.
 
 ```{r}
 data <- select(crime,-c(DR_NO,Date.Rptd,DATE.OCC,TIME.OCC,Part.1.2,Crm.Cd.1,Crm.Cd.2,
                         Crm.Cd.3,Crm.Cd.4))
 ```
 
-
 Since the key variables in this data set are ('Crm.Cd.Desc') & ('Crm.Cd'), which tell us about the crime committed, we wanted to analyze the behavior of these variables first.
 
 ```{r}
 table(data$Crm.Cd.Desc)
 ```
+
 So, we identify that most of the crimes have common characteristics even though the Crime description is different to each other.Therefore,we re-categorize the crimes as follows.
 
-For the convenience of the analysis the variable (`Crm.Cd.Desc`) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as `ASSUALT`, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as `BURGLARY`, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as `Extreme crimes`, if the crime contained the word Sex or Rape then the crime was coded as `SEXUAL MISCONDUCT`, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as `OTHER CRIMES`. 
+For the convenience of the analysis the variable (`Crm.Cd.Desc`) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as `ASSUALT`, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as `BURGLARY`, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as `Extreme crimes`, if the crime contained the word Sex or Rape then the crime was coded as `SEXUAL MISCONDUCT`, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as `OTHER CRIMES`.
 
 #### Codes for recoding
 
@@ -135,19 +136,19 @@ if(str_detect(data$Crm.Cd.Desc[i],"ASSAULT")==TRUE &
 
 ```
 
-
 The missing values of variable `Vict.Sex` was coded as unknown and replace into the same variable.
 
 ```{r}
 data$Vict.Sex<-ifelse(data$Vict.Sex=="M","Male",ifelse(data$Vict.Sex=="F","Female","Unknown"))
 ```
 
-Next we focused about the descent of the Victims.  
+Next we focused about the descent of the Victims.
+
 ```{r}
 table(data$Vict.Descent)
 ```
 
-We identified that mainly victims are belong to  5 types of descent and rest of the minor descents are renamed as Minor and unknown" and replace into the same variable.
+We identified that mainly victims are belong to 5 types of descent and rest of the minor descents are renamed as Minor and unknown" and replace into the same variable.
 
 ```{r}
 data$Vict.Descent<-ifelse(data$Vict.Descent=="A","Other Asian",
@@ -158,10 +159,12 @@ data$Vict.Descent<-ifelse(data$Vict.Descent=="A","Other Asian",
                                         ))))
 ```
 
-Since victims' age is a targeted variable under the analysis. we are going to observe whether there are any unusual observations in the data set.  
+Since victims' age is a targeted variable under the analysis. we are going to observe whether there are any unusual observations in the data set.
+
 ```{r}
 table(crime$Vict.Age)
 ```
+
 we can clearly see that there are 511 observations recorded under 0 age. we believe that, the owner has input 0 for the missing records. So, we dicided to replace them with the mean of the victims' age.
 
 ```{r}
@@ -169,9 +172,7 @@ data$Vict.Age <- ifelse(data$Vict.Age == "0", mean(data$Vict.Age),data$Vict.Age)
 table(data$Vict.Age)
 ```
 
-
-
-The Los Angeles Police Department has 21 community police Stations referred to as Geographic  Areas within the department. Now we are trying to come up with an answer, which geographic area has the highest number of crimes recorded.
+The Los Angeles Police Department has 21 community police Stations referred to as Geographic Areas within the department. Now we are trying to come up with an answer, which geographic area has the highest number of crimes recorded.
 
 To answer this we are going to use a horizontal bar graph.
 
@@ -180,6 +181,7 @@ ggplot(data , aes(x = AREA.NAME, fill=AREA.NAME)) +
   geom_bar(aes(y = ..count..), stat = "count") + 
   geom_text(stat='count', aes(label=..count..), vjust= 0)+ coord_flip()
 ```
+
 According to this bar chart it is obvious that the 77th street has the highest number of crimes occurred.Among the 21 geographic areas, 10o+ crimes have been reported over 10 areas.
 
 Now, let's conduct a crime-wise analysis for the geographic areas.
@@ -190,6 +192,7 @@ ggplot(data, aes(x = AREA.NAME, fill=AREA.NAME)) +
   geom_text(stat='count', aes(label=..count..), vjust=0)+ coord_flip()+
   facet_wrap(~crime)
 ```
+
 This set of Bar plots give an idea regrading what type of crimes frequently happened in Particular area. Since Burglary and Assault has a significant occurrence, let's repolt them separately.
 
 ```{r}
@@ -198,6 +201,7 @@ ggplot(data, aes(x = AREA.NAME, fill=AREA.NAME)) +
   geom_text(stat='count', aes(label=..count..), vjust=0)+ coord_flip()+
   facet_wrap(~crime=="BURGLARY")
 ```
+
 True column depicts the count of burglary in each area. Majority of crimes recorded in each area, belongs to the Burglary category.
 
 ```{r}
@@ -206,6 +210,7 @@ ggplot(data, aes(x = AREA.NAME, fill=AREA.NAME)) +
   geom_text(stat='count', aes(label=..count..), vjust=0)+ coord_flip()+
   facet_wrap(~crime=="ASSAULT")
 ```
+
 True column depicts the count of Assault in each area.
 
 Next we try to focus about victims' age and descent, to explore the patterns between crime and the respective variables.
@@ -223,12 +228,8 @@ ggplot(data=data)+
                vjust = 1.5, aes(label = paste("Mean:", round(..y.., digits = 1))))+
   coord_flip()
 ```
+
 This Box plot gives us a nice interpretation. When we focused about the IQ range we can roughly say majority of victims are in between 25 and 50 for all the crimes except the sexual misconduct. Criminals have targeted a lower age ranges while committing crimes related to the sex.
-
-
-
-
-
 
 ```{r}
 data %>%
@@ -243,8 +244,8 @@ data %>%
           labs(x="List of Crimes",title="Visual representation between Descent and Crime type")+
           theme_bw()
 ```
-We thought it is better to neglect the minor & unknown category, since we can't get an idea about the descent. So, Victims related to Hispanic/Latin/Mexican have faced every type of crime except for the burglary, where the white people have faced it more. 
 
+We thought it is better to neglect the minor & unknown category, since we can't get an idea about the descent. So, Victims related to Hispanic/Latin/Mexican have faced every type of crime except for the burglary, where the white people have faced it more.
 
 Now we will be exploring which sex group is experiencing which type of crime more or less. To explore that we are filling the occurrence of crimes with respect to the sex of the victim.
 
@@ -305,5 +306,3 @@ knitr::kable(data %>%
   select(Premis.Desc) %>% 
     rename("Premis of CWSTK"="Premis.Desc"))
 ```
-
-
