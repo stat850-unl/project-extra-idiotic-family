@@ -73,30 +73,215 @@
 \end{frame}
 
 
-\begin{frame}[fragile]{Loading data}
+\begin{frame}{Dataset Discription}
+
+This dataset reflects incidents of crime in the City of Los Angeles dating back to 2020. There are 521k rows (each row is a crime incident) and 28 columns (Variables)
+
+Data set link: \href{https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8}{here}.
+
+
+
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{data}\hlkwb{<-}\hlkwd{read.csv}\hlstd{(}\hlstr{"Subset_data.csv"}\hlstd{)}
-\hlkwd{library}\hlstd{(tidyverse)}
-\end{alltt}
-
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# -- Attaching packages --------------------------------------- tidyverse 1.3.2 --\\\#\# v ggplot2 3.3.6 \ \ \ \ \ v purrr \ \ 0.3.4 \\\#\# v tibble \ 3.1.8 \ \ \ \ \ v dplyr \ \ 1.0.10\\\#\# v tidyr \ \ 1.2.1 \ \ \ \ \ v stringr 1.4.1 \\\#\# v readr \ \ 2.1.2 \ \ \ \ \ v forcats 0.5.2 \\\#\# -- Conflicts ------------------------------------------ tidyverse\_conflicts() --\\\#\# x dplyr::filter() masks stats::filter()\\\#\# x dplyr::lag() \ \ \ masks stats::lag()}}\begin{alltt}
-\hlkwd{library}\hlstd{(knitr)}
-\hlkwd{library}\hlstd{(kableExtra)}
-\end{alltt}
-
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# \\\#\# Attaching package: 'kableExtra'\\\#\# \\\#\# The following object is masked from 'package:dplyr':\\\#\# \\\#\# \ \ \ \ group\_rows}}\end{kframe}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.5\textwidth]{figure/title.jpg}
 \end{knitrout}
+\end{frame}
+
+\begin{frame}{Variables Used under Analysis}
+
+\begin{itemize}
+\item Initially there were 28 variables in the data set.
+\item We focused only several variables for our analysis.
+\end{itemize}
 
 
 
+\begin{tabular}{|c||c|}
+\hline
+    Variable & Description \\ 
+\hline
+    AREA & Geographic Areas in Los-Angeles \\ 
+\hline
+    AREA NAME & Name designation of the area \\ 
+\hline
+Crm cd & crime code\\
+\hline
+Crm cd Desc & Defines the crime Code Provided\\
+\hline
+Vict Age & Age of the Victim\\
+\hline
+Vict Sex & Sex of the Victim\\
+\hline
+Vict Descent & Descent Code of the Victim\\
+\hline
+Premis Desc & Premises Description\\
+\hline
+Weapon Desc & weapon used in crime\\
+\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]{Method and analysis (re-categorizing crimes)}
+\begin{itemize}
+\item originally there were 73 types of crime.
+\item We re-categorized them as follows
+\end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/crime_types.png} 
+\end{knitrout}
 
 \end{frame}
 
-\section{Favorite Graph}
+\begin{frame}[fragile]{Method and analysis (Cleaning Age variable)}
+\begin{columns}
+		\column{.6\textwidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/hist_age.png} 
+\end{knitrout}
+
+\column{.4\textwidth}
+\textbf{Highlights}
+\begin{itemize}
+\item Unusual number of Zero records.
+\item replace them with median of age. 
+\item continue the analysis.
+
+\end{itemize}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Method and analysis (Re-categorizing Descent variable)}
+\begin{columns}
+		\column{.5\textwidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/Des_categories.png} 
+\end{knitrout}
+
+\column{.5\textwidth}
+\begin{tabular}{|c||c|}
+\hline
+    Symbol & Descecnt \\ 
+\hline
+    A & Other Asian \\ 
+\hline
+    B & Black \\ 
+\hline
+H & Hispanic/Latin/Mexican\\
+\hline
+O & other\\
+\hline
+W & white\\
+\hline
+ & Minor or Unknown\\
+\hline
+
+\end{tabular}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship with the area and the crime}
+
+which area is the most awfull to live.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/place.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item 77th street has the highest number of crimes.
+\item 100+ crimes have been reported over some other areas
+\item Please avoid those areas.
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Which type of crimes ocured most}
+\begin{columns}
+		\column{.5\textwidth}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/crime_types.png} 
+\end{knitrout}
+
+\column{.5\textwidth}
+\textbf{Highlights}
+\begin{itemize}
+\item Burglary And Assault
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/bur.jpg} 
+\end{knitrout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/as.jpg} 
+\end{knitrout}
+\end{itemize}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship between the area and the crime "Assault"}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/assault.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item 77th street 
+\item Southeast, Olymic, Hollywood, Central
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship between the area and the crime "Burglary"}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/burglary.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item Pacific 
+\item West LA, Northeast, N Hollywood, Central
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship between the age and the crime type}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/box_age.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item Sexual Misconduct
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Relationship between the Descent and the crime type}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/descent.png} 
+\end{knitrout}
+\textbf{Highlights}
+\begin{itemize}
+\item Burglary -> White people
+\item All other types -> Hispanic/Latin/Mexican people
+\end{itemize}
+\end{frame}
+
+
 
 \begin{frame}[fragile]{Crime and Victim's Sex}
 
@@ -114,7 +299,7 @@
 		\column{.6\textwidth}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
 \end{knitrout}
 
 \column{.4\textwidth}
@@ -265,7 +450,7 @@ STREET\\
 \begin{frame}[fragile]{Answer to weapons used in Assault}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-8-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-7-1} 
 \end{knitrout}
 
 
@@ -276,7 +461,7 @@ STREET\\
 \begin{frame}[fragile]{Answer to weapons used in sexual misconduct}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-9-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-8-1} 
 \end{knitrout}
 \end{frame}
 
@@ -298,7 +483,7 @@ STREET\\
 		\column{.55\textwidth}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-10-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-9-1} 
 \end{knitrout}
 
 \column{.45\textwidth}
