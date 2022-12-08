@@ -213,7 +213,7 @@ Which area is the most awful to live.
 \end{knitrout}
 \textbf{Highlights}
 \begin{itemize}
-\item Sexual Misconduct
+\item From the IQR we can roughly say majority of victims are in between 25 and 50 for all the crimes except the sexual misconduct.
 
 \end{itemize}
 \end{frame}
@@ -226,8 +226,9 @@ Which area is the most awful to live.
 \end{knitrout}
 \textbf{Highlights}
 \begin{itemize}
-\item Burglary -> White people
-\item All other types -> Hispanic/Latin/Mexican people
+\item Hispanic/Latin/Mexican have faced every type of crime more except for the burglary
+\item Burglary is faced by White people more.
+\item Assault is faced by a considerable number of black people
 \end{itemize}
 \end{frame}
 

@@ -123,7 +123,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="data-set-description" class="level2">
 <h2 class="anchored" data-anchor-id="data-set-description">Data set Description</h2>
-<p>This dataset reflects incidents of crime in the City of Los Angeles dating back to 2020. There are 521k rows (each row is a crime incident) and 28 columns (Variables).</p>
+<p>This data set reflects incidents of crime in the City of Los_Angeles dating back to 2020. There are 521k rows (each row is a crime incident) and 28 columns (Variables).</p>
 <ol type="1">
 <li><p><em>DR_NO</em> - Division of records number: Official file number made up of a 2 digit year, area ID, and 5 digits.</p></li>
 <li><p><em>Date Rptd</em> - Reported date of the crime</p></li>
@@ -161,15 +161,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="method-and-analsis" class="level2">
-<h2 class="anchored" data-anchor-id="method-and-analsis">Method and analsis</h2>
+<section id="method-and-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="method-and-analysis">Method and analysis</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(data<span class="sc">$</span>Crm.Cd.Desc))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 73</code></pre>
 </div>
 </div>
-<p>We found that there are 73 unique crime descriptions but most of the crimes have common characteristics even though the Crime description is different to each other. Therefore, for the convenience of the analysis the variable (<code>Crm.Cd.Desc</code>) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as <code>ASSUALT</code>, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as <code>BURGLARY</code>, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as <code>Extreme crimes</code>, if the crime contained the word Sex or Rape then the crime was coded as <code>SEXUAL MISCONDUCT</code>, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as <code>OTHER CRIMES</code>. The missing values of variable <code>Vict.Sex</code> was coded as unknown and replace into the same variable.</p>
+<p>We found that there are 73 unique crime descriptions but most of the crimes have common characteristics even though the crime description is different from each other. Therefore, for the convenience of the analysis the variable (<code>Crm.Cd.Desc</code>) representing the type of crimes were coded into general categories. The re-categorization was like if the crime contained the word Assualt then crime was categorized as <code>ASSUALT</code>, if the crime contained the word Burglary or Stolen or Theft then the crime was coded as <code>BURGLARY</code>, if the crime contained the word Criminal or Weapon or Shots or Threat or Kidnap then the crime was coded as <code>Extreme crimes</code>, if the crime contained the word Sex or Rape then the crime was coded as <code>SEXUAL MISCONDUCT</code>, some crimes were coded as their names like Violation,Robbery, and Trespassing, and rest of the crimes are coded as <code>OTHER CRIMES</code>. The missing and unknown values of variable <code>Vict.Sex</code> was coded as unknown otherwise coded as given that is male or female.</p>
 <section id="codes-for-recoding-crime-type-and-victim-sex" class="level4">
 <h4 class="anchored" data-anchor-id="codes-for-recoding-crime-type-and-victim-sex">Codes for recoding crime type and victim sex</h4>
 <div class="cell">
@@ -282,7 +282,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 </div>
-<p>We focused about the descent of the Victims and identified that mainly victims belong to 5 types of descent and rest of are minor or unknown. So we re-categorized the variable <code>Vict.Descent</code> into Asian, Black, Hispanic/Latin/Mexican, Other, White, and Minor or Unknown.</p>
+<p>We focused on the descent of the Victims and identified that mainly victims belong to 5 types of descent and rest of are minor or unknown. So we re-categorized the variable <code>Vict.Descent</code> into Asian, Black, Hispanic/Latin/Mexican, Other, White, and Minor or Unknown.</p>
+<section id="codes-for-the-recategorization-of-victim-descent" class="level6">
+<h6 class="anchored" data-anchor-id="codes-for-the-recategorization-of-victim-descent">Codes for the recategorization of victim descent</h6>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vict.Descent<span class="ot">&lt;-</span><span class="fu">ifelse</span>(data<span class="sc">$</span>Vict.Descent<span class="sc">==</span><span class="st">"A"</span>,<span class="st">"Other Asian"</span>,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(data<span class="sc">$</span>Vict.Descent<span class="sc">==</span><span class="st">"B"</span>,<span class="st">"Black"</span>,</span>
@@ -291,6 +293,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">ifelse</span>(data<span class="sc">$</span>Vict.Descent <span class="sc">==</span> <span class="st">"W"</span>,<span class="st">"White"</span>,<span class="st">"Minor or Unknown"</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                                        ))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="relationship-between-victims-descent-and-crime-type" class="level5">
+<h5 class="anchored" data-anchor-id="relationship-between-victims-descent-and-crime-type">Relationship between victim’s descent and crime type</h5>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(crime,Vict.Descent) <span class="sc">%&gt;%</span> </span>
@@ -307,7 +312,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Descriptive_analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>We thought it is better to neglect the minor &amp; unknown category, since we can’t get an idea about the descent. So, Victims related to Hispanic/Latin/Mexican have faced every type of crime more except for the burglary, where the white people have faced it more. We also see that assault is faced by a considerable number of black people.</p>
+<p>We thought it is better to neglect the minor &amp; unknown category, since we can’t get an idea about the descent. So, victims related to Hispanic/Latin/Mexican have faced every type of crime more except for the burglary, where the white people have faced it more. We also see that assault is faced by a considerable number of black people.</p>
+</section>
 </section>
 <section id="victims-age-and-crime" class="level3">
 <h3 class="anchored" data-anchor-id="victims-age-and-crime">Victim’s age and crime</h3>
@@ -318,7 +324,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Descriptive_analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>From the histogram, we can clearly see that there are a good number of observations recorded under 0 (years) age. We interpreted 0 as the missing records. So, we decided to replace them with the median of the victims’ age after deleting the value 0 since the histogram is skewed.</p>
+<p>From the histogram, we can clearly see that there are a good number of observations recorded under 0 (years) age. We interpreted 0 as the missing records. So, we decided to replace them with the median of the victims’ age calculated after deleting the value 0 since the histogram is skewed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Vict.Age <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>Vict.Age <span class="sc">==</span> <span class="st">"0"</span>, <span class="fu">median</span>(data<span class="sc">$</span>Vict.Age[data<span class="sc">$</span>Vict.Age<span class="sc">!=</span><span class="dv">0</span>]),data<span class="sc">$</span>Vict.Age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -356,12 +362,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data <span class="sc">%&gt;%</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(crime) <span class="sc">%&gt;%</span> </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(crime) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"crime type"</span><span class="ot">=</span><span class="st">"crime"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Crime type"</span><span class="ot">=</span><span class="st">"crime"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <thead>
 <tr class="header">
-<th style="text-align: left;">crime type</th>
+<th style="text-align: left;">Crime type</th>
 <th style="text-align: right;">n</th>
 </tr>
 </thead>
@@ -406,8 +412,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 </div>
-<p>Here we identified among all the crime types, Burglary and Assault have been reported more. so we carried out and seperate study for each.</p>
-<p>This set of Bar plots give an idea regrading what type of crimes frequently happened in Particular area. Since Burglary and Assault has a significant occurrence, we are reporting them separately.</p>
+<p>Here we identified among all the crime types, Burglary and Assault have been reported more. so we carried out separate exploration for each.</p>
+<p>This set of Bar plots give an idea regarding what type of crimes frequently happened in a particular area. Since Burglary and Assault has a significant occurrence, we are reporting them separately.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"BURGLARY"</span>) <span class="sc">%&gt;%</span></span>
@@ -422,7 +428,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Descriptive_analysis_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>We observed that the occurrence is proportionally highest in area Pacific and lowest Southeast. There are also good proportion of burglary in N Hollywood, Central, and West LA.</p>
+<p>We observed that the occurrence is proportionally highest in Pacific and lowest in Southeast. There are also good proportion of burglary in N Hollywood, Central, and West LA.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"ASSAULT"</span>) <span class="sc">%&gt;%</span></span>
@@ -436,7 +442,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Descriptive_analysis_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>We observed that the occurrence of ASSAULT is proportionally highest in 77th street and lowest Devonshire. There are also good proportion of assault in Hollywood, Central, Southeast, Olympic and Southwest..</p>
+<p>We observed that the occurrence of ASSAULT is proportionally highest in 77th street and lowest in Devonshire. There are also a good proportion of assault in Hollywood, Central, Southeast, Olympic and Southwest..</p>
 </section>
 <section id="crime-and-victim-sex" class="level3">
 <h3 class="anchored" data-anchor-id="crime-and-victim-sex">Crime and Victim Sex</h3>
@@ -579,7 +585,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 </div>
-<p>The frequent premises of sexual misconduct is similar to the premises that were reported for burglary and assault but the interesting is that we found that police facility is a frequently occurred premise for the crime sexual misconduct.</p>
+<p>The frequent premises of sexual misconduct is similar to the premises that were reported for burglary and assault but the interesting is that we found that police facility is a frequently occurred premise for the crime sexual misconduct. I think we all think police facility is a safer place than many places but the dataset gives a wrong view.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"EXTREME CRIMES"</span>) <span class="sc">%&gt;%</span> </span>
@@ -625,7 +631,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In this part we explored the question that whether for committing a particular type of crime commit-er has preference over the weapons based on the victim’s sex. We reported the weapons used more than 10 times for committing a particular crime in the data-set.</p>
 <section id="assault" class="level5">
 <h5 class="anchored" data-anchor-id="assault">Assault</h5>
-<p>In line with that the first crime we explored is Assault.</p>
+<p>The first crime we explored is Assault.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>weapon<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"ASSAULT"</span>) <span class="sc">%&gt;%</span> </span>
@@ -682,11 +688,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 </div>
-<p>From the contingency table, it is observed that hand gun, semi-automated pistol are more used in case of Male for committing assault compared to in case of female. And bodily force is used more in case of female compared to male.</p>
+<p>From the contingency table, it is observed that hand gun, semi-automated pistol are more used in case of male for committing assault compared to female. And bodily force is used more in case of female compared to male.</p>
 </section>
 <section id="sexual-misconduct" class="level5">
 <h5 class="anchored" data-anchor-id="sexual-misconduct">Sexual Misconduct</h5>
-<p>In this part we explored about the weapons used in terms of victim’s sex for the crime sexual misconduct.</p>
+<p>In this part we explored about the weapons used in crime sexual misconduct.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>weapon<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"SEXUAL MISCONDUCT"</span>) <span class="sc">%&gt;%</span> </span>
@@ -721,7 +727,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="robbery" class="level5">
 <h5 class="anchored" data-anchor-id="robbery">Robbery</h5>
-<p>Let’s look for robbery now.</p>
+<p>Let’s look at robbery now.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>weapon<span class="ot">&lt;-</span>data <span class="sc">%&gt;%</span> </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(crime<span class="sc">==</span><span class="st">"ROBBERY"</span>) <span class="sc">%&gt;%</span> </span>
@@ -809,7 +815,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 </div>
-<p>Here you go we have found verbal threats are given frequently in case of committing extreme crimes in the data-set with hand gun and they are more used in case of males compared to females.</p>
+<p>Here you go we have found verbal threats are given frequently in case of committing extreme crimes in the data-set. Use of hand gun is also found and they are more used in case of males compared to females.</p>
 </section>
 </section>
 <section id="about-crime-and-case-status" class="level2">
